@@ -9,6 +9,10 @@ lirc_node.init();
 console.log(lirc_node.remotes);
 
 app.get('/', function (req, res) {
+    res.send('Welcome to your home universal remote controller')
+})
+
+app.get('/on', function (req, res) {
 
     lirc_node.irsend.send_once("fujitsu_heat_ac", "cool-on", function() {
       console.log("Sent AC cool power command.");
