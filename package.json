@@ -1,0 +1,16 @@
+{
+  "name": "rpi-universal-remote",
+  "version": "0.0.1",
+  "description": "A web application interface for controlling my home devices connected through my raspberry pi.",
+  "keywords": [
+    "rpi",
+    "raspberry pi",
+    "universal remote"
+  ],
+  "scripts": {
+    "start": "node app.js" 
+  },
+  "dependencies": {
+    "express": "~4.0.0"
+  }
+}
