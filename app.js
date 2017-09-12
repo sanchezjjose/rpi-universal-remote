@@ -14,9 +14,20 @@ app.get('/', function (req, res) {
 })
 
 app.get('/on', function (req, res) {
+    console.log(req.query);
+
+    const mode = req.query.mode; // cool, dry, heat, etc..
+    const speed = req.query.speed; // high, low
+    const temp = req.query.temp; // 68, 70, 72, etc...
+
     lirc_node.irsend.send_once("fujitsu_heat_ac", "cool-on", function() {
         console.log("Sent AC cool power command.");
-        res.send('AC is ON!');
+        setTimeout(() => {
+            lirc_node.irsend.send_once("fujitsu_heat_ac", "cool-high-70F", function() {
+                console.log("Sent AC cool power high 70F command.");
+                res.send('AC is ON!');
+            });
+        }, 2000);
     });
 });
 
@@ -30,4 +41,3 @@ app.get('/off', function (req, res) {
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!');
 });
-
