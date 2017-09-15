@@ -1,6 +1,6 @@
-const express = require('express')
-const lircNode = require('lirc_node')
-const app = express()
+const express = require('express');
+const lircNode = require('lirc_node');
+const app = express();
 
 lirc_node = require('lirc_node');
 lirc_node.init();
@@ -11,7 +11,7 @@ console.log(lirc_node.remotes);
 app.get('/', function (req, res) {
     console.log(req.query);
     res.send('Welcome to your home universal remote controller');
-})
+});
 
 app.get('/on', function (req, res) {
     console.log(req.query);
