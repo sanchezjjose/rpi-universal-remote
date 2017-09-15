@@ -8,36 +8,66 @@ lirc_node.init();
 // To see all of the remotes and commands that LIRC knows about:
 console.log(lirc_node.remotes);
 
+function sendCommand (command, callback) {
+    lirc_node.irsend.send_once('fujitsu_heat_ac', command, callback);
+};
+
 app.get('/', function (req, res) {
     console.log(req.query);
-    res.send('Welcome to your home universal remote controller');
+    res.send('Welcome to your home universal remote controller.');
 });
 
 app.get('/on', function (req, res) {
     console.log(req.query);
 
-    const mode = req.query.mode; // cool, dry, heat, etc..
-    const speed = req.query.speed; // high, low
-    const temp = req.query.temp; // 68, 70, 72, etc...
+    const mode = req.query.mode; // cool, heat, dry, fan
+    const fanSpeed = req.query.speed; // auto, high, medium, low, quiet
+    const temp = req.query.temp;   // 68, 70, 72...
+    const command = `${mode}-${fanSpeed}-${temp}`;
+    const output = `Set unit to ${mode} on ${fanSpeed}, at ${temp} degrees.`;
 
-    lirc_node.irsend.send_once("fujitsu_heat_ac", "cool-on", function() {
-        console.log("Sent AC cool power command.");
-        setTimeout(() => {
-            lirc_node.irsend.send_once("fujitsu_heat_ac", "cool-high-70F", function() {
-                console.log("Sent AC cool power high 70F command.");
-                res.send('AC is ON!');
-            });
-        }, 2000);
+    if (mode === 'heat') {
+        sendCommand(command, function() {
+            console.log(output);
+            res.send(output);
+        });
+
+    } else {
+        sendCommand(`${mode}-on`, function() {
+            console.log('Turned unit on.');
+
+            setTimeout(() => {
+                sendCommand(command, function() {
+                    console.log(output);
+                    res.send(output);
+                });
+            }, 2000);
+        });
+    }
+});
+
+app.get('/set', function (req, res) {
+    console.log(req.query);
+
+    const mode = req.query.mode; // cool, heat, dry, fan
+    const fanSpeed = req.query.speed; // auto, high, medium, low, quiet
+    const temp = req.query.temp;   // 68, 70, 72...
+    const command = `${mode}-${fanSpeed}-${temp}`;
+    const output = `Set unit to ${mode} on ${fanSpeed}, at ${temp} degrees.`;
+
+    sendCommand(command, function() {
+        console.log(output);
+        res.send(output);
     });
 });
 
 app.get('/off', function (req, res) {
-    lirc_node.irsend.send_once("fujitsu_heat_ac", "turn-off", function() {
-        console.log("Sent AC power off command.");
-        res.send('AC is OFF!');
+    lirc_node.irsend.send_once('fujitsu_heat_ac', 'turn-off', function() {
+        console.log('Sent AC power off command.');
+        res.send('Your unit is OFF!');
     });
 });
 
 app.listen(3000, function () {
-    console.log('Example app listening on port 3000!');
+    console.log('Alfred app listening on port 3000!');
 });
