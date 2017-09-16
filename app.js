@@ -24,7 +24,7 @@ app.get('/on', function (req, res) {
     const mode = req.query.mode || 'dry'; // cool, heat, dry, fan
     const fanSpeed = req.query.speed || 'auto'; // auto, high, medium, low, quiet
     const temp = req.query.temp || '72';   // 68, 70, 72...
-    const command = `${mode}-${fanSpeed}-${temp}`;
+    const command = `${mode}-${fanSpeed}-${temp}F`;
     const output = `Turned on unit on ${mode}, ${fanSpeed}, at ${temp} degrees.`;
 
     if (mode === 'heat') {
@@ -53,7 +53,7 @@ app.get('/set', function (req, res) {
     const mode = req.query.mode || 'dry'; // cool, heat, dry, fan
     const fanSpeed = req.query.speed || 'auto'; // auto, high, medium, low, quiet
     const temp = req.query.temp || '72';   // 68, 70, 72...
-    const command = `${mode}-${fanSpeed}-${temp}`;
+    const command = `${mode}-${fanSpeed}-${temp}F`;
     const output = `Set unit to ${mode}, ${fanSpeed}, at ${temp} degrees.`;
 
     sendCommand(command, function() {
