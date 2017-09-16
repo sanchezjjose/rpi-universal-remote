@@ -15,17 +15,17 @@ function sendCommand (command, callback) {
     lirc_node.irsend.send_once('fujitsu_heat_ac', command, callback);
 };
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
     console.log(req.query);
     res.send('Welcome to your home universal remote controller.');
 });
 
-app.get('/status', function () {
+app.get('/status', (req, res) => {
     res.send(currentStatus);
 });
 
 // TODO: split into 2 routes -- /alexa/api/v1/on and /on
-app.get('/on', function (req, res) {
+app.get('/on', (req, res) => {
     console.log(req.query);
 
     const mode = req.query.mode || 'dry'; // cool, heat, dry, fan
@@ -55,7 +55,7 @@ app.get('/on', function (req, res) {
 });
 
 // TODO: split into 2 routes -- /alexa/api/v1/set and /set
-app.get('/set', function (req, res) {
+app.get('/set', (req, res) => {
     console.log(req.query);
 
     const mode = req.query.mode || 'dry'; // cool, heat, dry, fan
@@ -71,13 +71,13 @@ app.get('/set', function (req, res) {
 });
 
 // TODO: split into 2 routes -- /alexa/api/v1/off and /off
-app.get('/off', function (req, res) {
+app.get('/off', (req, res) => {
     sendCommand('turn-off', function() {
         console.log('Sent power off command.');
         res.send('The AC is now off.');
     });
 });
 
-app.listen(3000, function () {
+app.listen(3000, () => {
     console.log('Alfred app listening on port 3000!');
 });
