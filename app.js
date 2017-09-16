@@ -26,7 +26,7 @@ app.get('/on', function (req, res) {
     const fanSpeed = req.query.speed || 'auto'; // auto, high, medium, low, quiet
     const temp = req.query.temp || '72';   // 68, 70, 72...
     const command = `${mode}-${fanSpeed}-${temp}F`;
-    const output = `Turned on unit on ${mode}, ${fanSpeed}, at ${temp} degrees.`;
+    const output = `Turned on ${mode} mode on ${fanSpeed}, at ${temp} degrees.`;
 
     if (mode === 'heat') {
         sendCommand(command, function() {
@@ -56,7 +56,7 @@ app.get('/set', function (req, res) {
     const fanSpeed = req.query.speed || 'auto'; // auto, high, medium, low, quiet
     const temp = req.query.temp || '72';   // 68, 70, 72...
     const command = `${mode}-${fanSpeed}-${temp}F`;
-    const output = `Set unit to ${mode}, ${fanSpeed}, at ${temp} degrees.`;
+    const output = `Set ${mode} mode on ${fanSpeed}, at ${temp} degrees.`;
 
     sendCommand(command, function() {
         console.log(output);
@@ -67,8 +67,8 @@ app.get('/set', function (req, res) {
 // TODO: split into 2 routes -- /alexa/api/v1/off and /off
 app.get('/off', function (req, res) {
     sendCommand('turn-off', function() {
-        console.log('Sent AC power off command.');
-        res.send('Your unit is OFF!');
+        console.log('Sent power off command.');
+        res.send('The AC is now off.');
     });
 });
 
