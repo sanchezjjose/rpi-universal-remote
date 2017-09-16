@@ -8,7 +8,8 @@
     "universal remote"
   ],
   "scripts": {
-    "start": "node app.js"
+    "dev": "node app.js",
+    "start": "forever start app.js",
   },
   "dependencies": {
     "express": "~4.0.0",
