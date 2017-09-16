@@ -2,6 +2,8 @@ const express = require('express');
 const lircNode = require('lirc_node');
 const app = express();
 
+let currentStatus = 'unknown';
+
 lirc_node = require('lirc_node');
 lirc_node.init();
 
@@ -16,6 +18,10 @@ function sendCommand (command, callback) {
 app.get('/', function (req, res) {
     console.log(req.query);
     res.send('Welcome to your home universal remote controller.');
+});
+
+app.get('/status', function () {
+    res.send(currentStatus);
 });
 
 // TODO: split into 2 routes -- /alexa/api/v1/on and /on
