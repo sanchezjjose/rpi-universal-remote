@@ -18,6 +18,7 @@ app.get('/', function (req, res) {
     res.send('Welcome to your home universal remote controller.');
 });
 
+// TODO: split into 2 routes -- /alexa/api/v1/on and /on
 app.get('/on', function (req, res) {
     console.log(req.query);
 
@@ -47,6 +48,7 @@ app.get('/on', function (req, res) {
     }
 });
 
+// TODO: split into 2 routes -- /alexa/api/v1/set and /set
 app.get('/set', function (req, res) {
     console.log(req.query);
 
@@ -62,6 +64,7 @@ app.get('/set', function (req, res) {
     });
 });
 
+// TODO: split into 2 routes -- /alexa/api/v1/off and /off
 app.get('/off', function (req, res) {
     sendCommand('turn-off', function() {
         console.log('Sent AC power off command.');
