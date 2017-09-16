@@ -2,15 +2,13 @@ const express = require('express');
 const lircNode = require('lirc_node');
 const app = express();
 
-let currentStatus = 'unknown';
+let currentStatus = 'Unknown';
 
 lirc_node = require('lirc_node');
 lirc_node.init();
 
 function sendCommand (command, callback) {
     console.log(`Sending command ${command}`);
-    currentStatus = command;
-
     lirc_node.irsend.send_once('fujitsu_heat_ac', command, callback);
 };
 
@@ -19,7 +17,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/status', (req, res) => {
-    console.log('Getting current status.');
+    console.log('Sending current status.');
     res.send(currentStatus);
 });
 
@@ -31,7 +29,9 @@ app.get('/on', (req, res) => {
     const fanSpeed = req.query.speed || 'auto'; // auto, high, medium, low, quiet
     const temp = req.query.temp || '72';   // [68...88] in increments of '2'  
     const command = `${mode}-${fanSpeed}-${temp}F`;
-    const output = `Turned on ${mode} mode on ${fanSpeed}, at ${temp} degrees.`;
+
+    currentStatus = `${mode} mode on ${fanSpeed}, at ${temp} degrees.`;
+    const output = `Turned on ${currentStatus}.`;
     
     console.log('output: ', output);
 
@@ -61,7 +61,9 @@ app.get('/set', (req, res) => {
     const fanSpeed = req.query.speed || 'auto'; // auto, high, medium, low, quiet
     const temp = req.query.temp || '72';   // 68, 70, 72...
     const command = `${mode}-${fanSpeed}-${temp}F`;
-    const output = `Set ${mode} mode on ${fanSpeed}, at ${temp} degrees.`;
+
+    currentStatus = `${mode} mode on ${fanSpeed}, at ${temp} degrees.`;
+    const output = `Set on ${currentStatus}.`;
     
     console.log('output: ', output);
 
@@ -73,6 +75,8 @@ app.get('/set', (req, res) => {
 // TODO: split into 2 routes -- /alexa/api/v1/off and /off
 app.get('/off', (req, res) => {
     console.log('Sending power off command.');
+
+    currentStatus = 'Off';
     
     sendCommand('turn-off', function() {
         res.send('The AC is now off.');
