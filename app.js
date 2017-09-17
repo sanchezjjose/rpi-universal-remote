@@ -53,6 +53,14 @@ app.get('/status', (req, res) => {
     res.send(currentSettings);
 });
 
+app.get('/off', (req, res) => {
+    const settings = req.query;
+
+    turnOff(() => {
+        res.json(getResponseJSON('off', settings));
+    });
+});
+
 app.get('/on', (req, res) => {
     const settings = req.query;
 
@@ -77,14 +85,6 @@ app.get('/set', (req, res) => {
 
     sendCommand(settings, () => {
         res.json(getResponseJSON('on', settings));
-    });
-});
-
-app.get('/off', (req, res) => {
-    const settings = req.query;
-
-    turnOff(() => {
-        res.json(getResponseJSON('off', settings));
     });
 });
 
