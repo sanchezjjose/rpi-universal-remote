@@ -36,9 +36,9 @@ function getResponseJSON (state, settings) {
         isOn:  state === 'on',
         isOff: state === 'off',
         settings: {
-            mode: settings.mode,
-            speed: settings.speed,
-            temp: settings.temp
+            mode:  settings.mode  || 'dry',
+            speed: settings.speed || 'auto',
+            temp:  settings.temp  || '72'
         }
     };
 
