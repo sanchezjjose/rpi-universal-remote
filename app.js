@@ -16,8 +16,8 @@ app.get('/status', (req, res) => {
 app.get('/off', (req, res) => {
     const airConditioner = new AirConditioner('off', req.query);
 
-    airConditioner.turnOff(() => {
-        res.json(helper.getResponseJSON(airConditioner));
+    airConditioner.turnOff(data => {
+        res.json(data);
     });
 });
 
@@ -25,15 +25,15 @@ app.get('/on', (req, res) => {
     const airConditioner = new AirConditioner('on', req.query);
 
     if (req.query.mode === 'heat') {
-        airConditioner.sendCommand(() => {
-            res.json(helper.getResponseJSON(airConditioner));
+        airConditioner.sendCommand(data => {
+            res.json(data);
         });
 
     } else {
-        airConditioner.turnOn(() => {
+        airConditioner.turnOn(data => {
             setTimeout(() => {
-                airConditioner.sendCommand(() => {
-                    res.json(helper.getResponseJSON(airConditioner));
+                airConditioner.sendCommand(data => {
+                    res.json(data);
                 });
             }, 2000);
         });
@@ -43,8 +43,8 @@ app.get('/on', (req, res) => {
 app.get('/set', (req, res) => {
     const airConditioner = new AirConditioner('on', req.query);
 
-    airConditioner.sendCommand(() => {
-        res.json(helper.getResponseJSON(airConditioner));
+    airConditioner.sendCommand(data => {
+        res.json(data);
     });
 });
 
