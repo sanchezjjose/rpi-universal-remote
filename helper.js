@@ -12,9 +12,9 @@ function getResponseJSON (airConditioner) {
         isOn:  airConditioner.state === 'on',
         isOff: airConditioner.state === 'off',
         settings: {
-            mode:  airConditioner.mode  || 'dry',
-            speed: airConditioner.speed || 'auto',
-            temp:  airConditioner.temp  || '72'
+            mode:  airConditioner.mode,
+            speed: airConditioner.speed,
+            temp:  airConditioner.temp
         }
     };
 

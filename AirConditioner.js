@@ -10,9 +10,9 @@ class AirConditioner {
 
     constructor (state, settings) {
         this.state = state;
-        this.mode =  settings.mode  || 'dry';
-        this.speed = settings.speed || 'auto';
-        this.temp =  settings.temp  || '72';
+        this.mode =  settings.mode;
+        this.speed = settings.speed;
+        this.temp =  settings.temp;
     }
 
     turnOn (callback) {
