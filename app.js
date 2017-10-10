@@ -5,6 +5,12 @@ const helper = require('./helper');
 const AirConditioner = require('./AirConditioner');
 const app = express();
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.get('/', (req, res) => {
     res.send('Welcome to your home universal remote controller.');
 });
@@ -48,6 +54,6 @@ app.get('/set', (req, res) => {
     });
 });
 
-app.listen(3000, () => {
+app.listen(3001, () => {
     console.log('Universal remote application listening on port 3000!');
 });
