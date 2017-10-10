@@ -54,6 +54,6 @@ app.get('/set', (req, res) => {
     });
 });
 
-app.listen(3001, () => {
+app.listen(3000, () => {
     console.log('Universal remote application listening on port 3000!');
 });
