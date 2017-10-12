@@ -55,5 +55,5 @@ app.get('/set', (req, res) => {
 });
 
 app.listen(3001, () => {
-    console.log('Universal remote application listening on port 3000!');
+    console.log('Universal remote server listening on port 3001!');
 });
