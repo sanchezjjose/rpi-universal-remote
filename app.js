@@ -15,43 +15,29 @@ app.get('/', (req, res) => {
     res.send('Welcome to your home universal remote controller.');
 });
 
-app.get('/status', (req, res) => {
-    res.json(helper.getCurrentSettings());
-});
-
-app.get('/off', (req, res) => {
-    const airConditioner = new AirConditioner('off', req.query);
-
-    airConditioner.turnOff(data => {
-        res.json(data);
-    });
-});
-
 app.get('/on', (req, res) => {
-    const airConditioner = new AirConditioner('on', req.query);
+    const ac = new AirConditioner('on', req.query);
 
     if (req.query.mode === 'heat') {
-        airConditioner.sendCommand(data => {
-            res.json(data);
-        });
+        ac.set().then(data => res.json(data));
 
     } else {
-        airConditioner.turnOn(data => {
-            setTimeout(() => {
-                airConditioner.sendCommand(data => {
-                    res.json(data);
-                });
-            }, 2000);
-        });
+        ac.turnOn().then(data => res.json(data));
     }
 });
 
-app.get('/set', (req, res) => {
-    const airConditioner = new AirConditioner('on', req.query);
+app.get('/off', (req, res) => {
+    const ac = new AirConditioner('off', req.query);
+    ac.turnOff().then(data => res.json(data));
+});
 
-    airConditioner.sendCommand(data => {
-        res.json(data);
-    });
+app.get('/set', (req, res) => {
+    const ac = new AirConditioner('on', req.query);
+    ac.set().then(data => res.json(data));
+});
+
+app.get('/status', (req, res) => {
+    res.json(helper.getCurrentSettings());
 });
 
 app.listen(3001, () => {

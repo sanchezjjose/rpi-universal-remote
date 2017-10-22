@@ -13,25 +13,42 @@ class AirConditioner {
         this.mode =  settings.mode;
         this.speed = settings.speed;
         this.temp =  settings.temp;
+
+        this.timeout = this.timeout.bind(this);
+        this.sendCommand = this.sendCommand.bind(this);
+        this.set = this.set.bind(this);
     }
 
-    turnOn (callback) {
-        const data = helper.getResponseJSON(this);
-        lirc_node.irsend.send_once(AC_UNIT_NAME, `${this.mode}-on`, callback(data));
+    async turnOn () {
+        await this.sendCommand(`${this.mode}-on`);
+        return await this.timeout(this.set, 5000);
     }
 
-    turnOff (callback) {
-        const data = helper.getResponseJSON(this);
-        lirc_node.irsend.send_once(AC_UNIT_NAME, 'turn-off', callback(data));
+    async turnOff () {
+        return await this.sendCommand('turn-off');
     }
 
-    sendCommand (callback) {
-        const data = helper.getResponseJSON(this);
-        const command = `${this.mode}-${this.speed}-${this.temp}F`;
-        console.log(`Sending command: ${command}`);
+    async set () {
+        return await this.sendCommand(`${this.mode}-${this.speed}-${this.temp}F`);
+    }
 
-        lirc_node.irsend.send_once(AC_UNIT_NAME, command, callback(data));
-    };
+    sendCommand (cmd) {
+        console.log(`Sending command: ${cmd}`);
+        
+        return new Promise(resolve => {
+            lirc_node.irsend.send_once(AC_UNIT_NAME, cmd, () => {
+                const data = helper.getResponseJSON(this);
+                resolve(data);
+            });
+        });
+    }
+
+    timeout (cb, ms) {
+        return new Promise (resolve => {
+            console.log(`Waiting ${ms} ms...`);
+            setTimeout (resolve(cb()), ms);
+        }); 
+    }
 };
 
 module.exports = AirConditioner;
