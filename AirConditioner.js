@@ -36,7 +36,7 @@ class AirConditioner {
 
     sendCommand (cmd) {
         console.log(`Sending command: ${cmd}`);
-        
+         
         return new Promise(resolve => {
             lirc_node.irsend.send_once(AC_UNIT_NAME, cmd, () => {
                 const data = helper.getResponseJSON(this);
