@@ -10,23 +10,20 @@ class AirConditioner {
 
     constructor (state, settings) {
         this.state = state;
-        this.mode =  settings.mode;
+        this.mode = settings.mode;
         this.speed = settings.speed;
-        this.temp =  settings.temp;
+        this.temp = settings.temp;
 
-        this.timeout = this.timeout.bind(this);
+        this.sleep = this.sleep.bind(this);
         this.sendCommand = this.sendCommand.bind(this);
         this.set = this.set.bind(this);
     }
 
     async turnOn () {
         await this.sendCommand(`${this.mode}-on`);
-        const resp = await this.timeout(this.set, 5000);
+        await this.sleep(2000);
 
-        console.log('AAAA');
-        console.log(resp);
-
-        return resp;
+        return await this.set();
     }
 
     async turnOff () {
@@ -48,11 +45,8 @@ class AirConditioner {
         });
     }
 
-    async timeout (cb, ms) {
-        return new Promise (resolve => {
-            console.log(`Waiting ${ms} ms...`);
-            setTimeout(resolve(cb()), ms);
-        });
+    sleep (ms = 0) {
+        return new Promise (resolve => setTimeout(resolve, ms));
     }
 };
 
