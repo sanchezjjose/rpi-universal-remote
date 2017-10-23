@@ -19,11 +19,10 @@ app.get('/on', (req, res) => {
     const ac = new AirConditioner('on', req.query);
 
     if (req.query.mode === 'heat') {
-        ac.set().then(data => res.json(data));
-
-    } else {
-        ac.turnOn().then(data => res.json(data));
+        return ac.set().then(data => res.json(data));
     }
+
+    ac.turnOn().then(data => res.json(data));
 });
 
 app.get('/off', (req, res) => {

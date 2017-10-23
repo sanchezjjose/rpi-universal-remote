@@ -8,11 +8,14 @@
     "universal remote"
   ],
   "scripts": {
-    "dev": "node app.js",
+    "dev": "nodemon app.js",
     "start": "forever start app.js"
   },
   "dependencies": {
     "express": "~4.0.0",
     "lirc_node": "0.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.1"
   }
 }

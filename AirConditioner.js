@@ -21,7 +21,12 @@ class AirConditioner {
 
     async turnOn () {
         await this.sendCommand(`${this.mode}-on`);
-        return await this.timeout(this.set, 5000);
+        const resp = await this.timeout(this.set, 5000);
+
+        console.log('AAAA');
+        console.log(resp);
+
+        return resp;
     }
 
     async turnOff () {
@@ -43,11 +48,11 @@ class AirConditioner {
         });
     }
 
-    timeout (cb, ms) {
+    async timeout (cb, ms) {
         return new Promise (resolve => {
             console.log(`Waiting ${ms} ms...`);
-            setTimeout (resolve(cb()), ms);
-        }); 
+            setTimeout(resolve(cb()), ms);
+        });
     }
 };
 
