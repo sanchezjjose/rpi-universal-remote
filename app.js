@@ -1,7 +1,6 @@
 'use strict';
 
 const express = require('express');
-const helper = require('./helper');
 const AirConditioner = require('./AirConditioner');
 const app = express();
 
@@ -36,7 +35,7 @@ app.get('/set', (req, res) => {
 });
 
 app.get('/status', (req, res) => {
-    res.json(helper.getCurrentSettings());
+    res.json(AirConditioner.getState());
 });
 
 app.listen(3001, () => {
