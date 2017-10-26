@@ -5,16 +5,21 @@ const AC_UNIT_NAME = 'fujitsu_heat_ac';
 
 lirc_node.init();
 
-// stores most recent AirConditioner instance in memory
-let ac = {};
+// init and store latest AirConditioner instance in memory
+let ac = { 
+    state : 'off', 
+    mode  : 'dry', 
+    speed : 'auto', 
+    temp  : '70' 
+};
 
 class AirConditioner {
 
     constructor (state, settings) {
         this.state = state;
-        this.mode = settings.mode;
-        this.speed = settings.speed;
-        this.temp = settings.temp;
+        this.mode  = settings.mode  || ac.mode;
+        this.speed = settings.speed || ac.speed;
+        this.temp  = settings.temp  || ac.temp;
 
         this.sleep = this.sleep.bind(this);
         this.sendCommand = this.sendCommand.bind(this);
@@ -51,15 +56,12 @@ class AirConditioner {
     }
 
     static getState () {
+        const settings = ac.state === 'off' ? { } : { mode:  ac.mode, speed: ac.speed, temp:  ac.temp };
         
         return {
             isOn:  ac.state === 'on',
             isOff: ac.state === 'off',
-            settings: {
-                mode:  ac.mode,
-                speed: ac.speed,
-                temp:  ac.temp
-            }
+            settings: settings
         };
     }
 };
