@@ -56,8 +56,8 @@ class AirConditioner {
     }
 
     static getState () {
-        const settings = ac.state === 'off' ? { } : { mode:  ac.mode, speed: ac.speed, temp:  ac.temp };
-        
+        const settings = { mode:  ac.mode, speed: ac.speed, temp:  ac.temp };
+
         return {
             isOn:  ac.state === 'on',
             isOff: ac.state === 'off',
